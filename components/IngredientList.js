@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {SafeAreaView,StyleSheet,ScrollView,View,FlatList,Text,Button,} from 'react-native';
-import {Colors,} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaView,Image,View,FlatList,Text,Pressable,} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { styles } from './../styles/styles';
 
 
 const IngredientList = ({navigation}) => {
@@ -20,55 +19,29 @@ const IngredientList = ({navigation}) => {
 
     return (
         <>
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView>
                 <FlatList
                     data={ingredients}
                     keyExtractor={({ id }, index) =>  String(id) }
+                    numColumns={3}
                     renderItem={({ item }) => (
-                        <Text>{item.name}</Text>
+                        <Pressable style={styles.ingredientCard} onPress={() => navigation.navigate('Ingredient', {ingredient: item})}>
+
+                                <Image 
+                                    source={{uri: 'https://cdn.shopify.com/s/files/1/0013/2477/7569/products/Bottle-Shot-Bulleit10_960x.jpg?v=1597789623'}} 
+                                    style={styles.thumbnail}/>
+                            <View style={styles.ingredientDetails}>
+                                <Text style={styles.ingredientTitle}>{item.name}</Text>
+                                <View style={styles.ingredientIcons}>
+                                    <Icon name='add' size={20}/>
+                                    <Icon name='shopping-cart' size={20}/>
+                                </View>
+                            </View>
+                        </Pressable>
                     )}/>
             </SafeAreaView>
         </>
   );
 }
-
-const styles = StyleSheet.create({
-    scrollView: {
-        backgroundColor: Colors.lighter,
-    },
-    engine: {
-        position: 'absolute',
-        right: 0,
-    },
-    body: {
-        backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: Colors.black,
-    },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400',
-        color: Colors.dark,
-    },
-    highlight: {
-        fontWeight: '700',
-    },
-    footer: {
-        color: Colors.dark,
-        fontSize: 12,
-        fontWeight: '600',
-        padding: 4,
-        paddingRight: 12,
-        textAlign: 'right',
-    },
-});
 
 export default IngredientList;
