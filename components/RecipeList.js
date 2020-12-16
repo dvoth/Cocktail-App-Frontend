@@ -22,7 +22,7 @@ const RecipeList = ({navigation}) => {
     const getListableIngredients = (recipe) => {
         var ingredientList=''
         const numIngredients = recipe.ingredients.length
-        console.log(numIngredients)
+        console.log(recipe)
         recipe.ingredients.map((ingredient, i) => {
             ingredientList += ingredient.ingredient.name
             
@@ -43,7 +43,7 @@ const RecipeList = ({navigation}) => {
                     renderItem={({ item }) => (
                         <Pressable style={styles.recipeCard} onPress={() => navigation.navigate('Recipe', {recipe: item})}>
                             <Image 
-                                source={{uri: 'https://image.shutterstock.com/image-photo/old-fashioned-cocktail-isolated-on-600w-199489058.jpg'}} 
+                                source={{uri: item.image }} 
                                 style={styles.thumbnail}/>
                             <View style={styles.recipeDetailsContainer}>
                                     <View style={styles.recipeTitleContainer}>

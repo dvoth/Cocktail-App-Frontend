@@ -28,7 +28,7 @@ const IngredientList = ({navigation}) => {
                         <Pressable style={styles.ingredientCard} onPress={() => navigation.navigate('Ingredient', {ingredient: item})}>
 
                                 <Image 
-                                    source={{uri: 'https://cdn.shopify.com/s/files/1/0013/2477/7569/products/Bottle-Shot-Bulleit10_960x.jpg?v=1597789623'}} 
+                                    source={{uri: item.image}} 
                                     style={styles.thumbnail}/>
                             <View style={styles.ingredientDetails}>
                                 <Text style={styles.ingredientTitle}>{item.name}</Text>
