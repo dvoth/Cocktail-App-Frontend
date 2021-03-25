@@ -16,7 +16,7 @@ const App = () =>  {
                 initialRouteName='My Bar'
                 tabBarOptions={bottomNavStyles}
             >
-                <Tab.Screen name="Ingredients" component={IngredientScreen} />
+                <Tab.Screen name="Discover" component={IngredientScreen} />
                 <Tab.Screen name="My Bar" component={MyBarNavigator} />
                 <Tab.Screen name="Profile" component={ProfileScreen} />
             </Tab.Navigator>
