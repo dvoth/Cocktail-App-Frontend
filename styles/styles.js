@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 export const mainColor = '#B83B5E';
 export const secondColor = '#F08A5D';
@@ -9,11 +9,12 @@ export const fifthColor = '#F01641';
 
 const customFontRegular = 'Nunito-Regular';
 const customFontBold = 'Nunito-SemiBold';
+const {width} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
 
     // CARD STYLES
-    card: {
+    recipeCard: {
         margin: 10,
         padding: 10,
         backgroundColor: mainColor,
@@ -40,7 +41,27 @@ export const styles = StyleSheet.create({
     recipeDetails: {
         paddingTop: 5,
     },
-    
+    ingredientCard: {
+        margin: 10,
+        padding: 10,
+        width: (width / 3) - 20,
+        backgroundColor: secondColor,
+        borderRadius: 10,
+    },
+    ingredientIcons: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },  
+    ingredientTitle: {
+        fontSize: 18,
+        textAlign: 'center',
+        textAlignVertical: 'center'
+    },
+    ingredientDetails: {
+        paddingTop: 5,
+        justifyContent: 'space-between',
+        flex: 1
+    },
 })
 
 // This is not typical react native styling, refer to https://reactnavigation.org/docs/bottom-tab-navigator#tabbaroptions

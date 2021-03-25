@@ -22,7 +22,7 @@ const RecipeList = ({navigation}) => {
     const getListableIngredients = (recipe) => {
         var ingredientList=''
         const numIngredients = recipe.ingredients.length
-        console.log(numIngredients)
+        console.log(recipe)
         recipe.ingredients.map((ingredient, i) => {
             ingredientList += ingredient.ingredient.name
             
@@ -41,9 +41,9 @@ const RecipeList = ({navigation}) => {
                     data={recipes}
                     keyExtractor={({ id }, index) =>  String(id) }
                     renderItem={({ item }) => (
-                        <Pressable style={styles.card} onPress={() => navigation.navigate('Recipe', {recipe: item})}>
+                        <Pressable style={styles.recipeCard} onPress={() => navigation.navigate('Recipe', {recipe: item})}>
                             <Image 
-                                source={{uri: 'https://image.shutterstock.com/image-photo/old-fashioned-cocktail-isolated-on-600w-199489058.jpg'}} 
+                                source={{uri: item.image }} 
                                 style={styles.thumbnail}/>
                             <View style={styles.recipeDetailsContainer}>
                                     <View style={styles.recipeTitleContainer}>
@@ -55,7 +55,6 @@ const RecipeList = ({navigation}) => {
                                     <Text style={styles.recipeDetails}>{item.description}</Text>
                             </View>
                         </Pressable>
-                        // <Button title={item.name} onPress={() => navigation.navigate('Recipe', {recipe: item})}/>
                     )}/>
             </SafeAreaView>
   );
