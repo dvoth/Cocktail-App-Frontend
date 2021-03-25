@@ -62,6 +62,34 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         flex: 1
     },
+
+    // Recipe Styles
+    cocktailImage: {
+        height:200,
+        width: 200,
+        borderRadius: 10,
+        marginBottom: 10
+    },
+    recipeSectionHeader: {
+        fontSize:20,
+        textAlign:'center'
+    },
+    recipeContainer: {
+        padding:10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    recipeSection: {
+        width: '100%',
+        borderWidth: 1,
+        paddingHorizontal: 20,
+        overflow: 'hidden',
+        paddingVertical: 10,
+        marginBottom: 5,
+        borderRadius: 10,
+        justifyContent: 'center'
+    },
+
 })
 
 // This is not typical react native styling, refer to https://reactnavigation.org/docs/bottom-tab-navigator#tabbaroptions
