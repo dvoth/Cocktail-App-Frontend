@@ -17,6 +17,29 @@ const IngredientList = ({navigation}) => {
         .finally(() => setLoading(false));
     }, []);
 
+    const addIngredient = (ingredient) => {
+        var formData = new FormData();
+        formData.append('key1', 'value1');
+        formData.append('key1', 'value2');
+
+
+        fetch('http://192.168.1.245:8000/users/1/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                ingredientId: 4
+            })
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json))
+            .catch((error) => console.error(error))
+        //   .finally(() => setLoading(false));
+    }
+
+    const addToShoppingCart = (ingredient) => {
+
+    }
+
     return (
         <>
             <SafeAreaView>
@@ -25,19 +48,22 @@ const IngredientList = ({navigation}) => {
                     keyExtractor={({ id }, index) =>  String(id) }
                     numColumns={3}
                     renderItem={({ item }) => (
-                        <Pressable style={styles.ingredientCard} onPress={() => navigation.navigate('Ingredient', {ingredient: item})}>
-
-                                <Image 
-                                    source={{uri: item.image}} 
-                                    style={styles.thumbnail}/>
+                        <View style={styles.ingredientCard}>
+                            <Image 
+                                source={{uri: item.image}} 
+                                style={styles.thumbnail}/>
                             <View style={styles.ingredientDetails}>
                                 <Text style={styles.ingredientTitle}>{item.name}</Text>
                                 <View style={styles.ingredientIcons}>
-                                    <Icon name='add' size={20}/>
-                                    <Icon name='shopping-cart' size={20}/>
+                                    <Pressable onPress={() => addIngredient(item)}>
+                                        <Icon name='add' size={20}/>
+                                    </Pressable>
+                                    <Pressable onPress={() => addToShoppingCart(item)}>
+                                        <Icon name='shopping-cart' size={20}/>
+                                    </Pressable>
                                 </View>
                             </View>
-                        </Pressable>
+                        </View>
                     )}/>
             </SafeAreaView>
         </>
