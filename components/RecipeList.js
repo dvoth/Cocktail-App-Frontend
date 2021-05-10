@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 import {SafeAreaView,FlatList,Pressable,Text,Image,View} from 'react-native';
-import Recipe from './Recipe'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../styles/styles';
-import { min } from 'react-native-reanimated';
+import {getRecipes} from '../actions/recipes'
 
 
-const RecipeList = ({navigation}) => {
-    const [isLoading, setLoading] = useState(true);
-    const [recipes, setRecipes] = useState([]);
-  
+const RecipeList = props => {
+    const dispatch = useDispatch();
+    const actionData = useSelector(state => state.recipes.recipes)
+    const [recipes, setRecipes] = useState(actionData);
+
     useEffect(() => {
-      fetch('http://192.168.1.245:8000/recipes/')
-        .then((response) => response.json())
-        .then((json) => setRecipes(json))
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+        dispatch(getRecipes());
     }, []);
 
     const getListableIngredients = (recipe) => {
         var ingredientList=''
         const numIngredients = recipe.ingredients.length
-        console.log(recipe)
         recipe.ingredients.map((ingredient, i) => {
             ingredientList += ingredient.ingredient.name
             
@@ -38,10 +34,10 @@ const RecipeList = ({navigation}) => {
     return (
             <SafeAreaView>
                 <FlatList
-                    data={recipes}
+                    data={recipes.recipes}
                     keyExtractor={({ id }, index) =>  String(id) }
                     renderItem={({ item }) => (
-                        <Pressable style={styles.recipeCard} onPress={() => navigation.navigate('Recipe', {recipe: item})}>
+                        <Pressable style={styles.recipeCard} onPress={() => props.navigation.navigate('Recipe', {recipe: item})}>
                             <Image 
                                 source={{uri: item.image }} 
                                 style={styles.thumbnail}/>
