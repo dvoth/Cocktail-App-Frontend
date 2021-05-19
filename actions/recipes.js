@@ -1,16 +1,37 @@
-import {GET_RECIPES, DELETE_RECIPE, ADD_RECIPE} from './types'
+import {FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAILURE, FETCHING_RECIPES, DELETE_RECIPE, ADD_RECIPE} from './types'
 
-// GET RECIPES
-export const getRecipes = () => dispatch => {
-    fetch('http://192.168.1.245:8000/recipes/')
-        .then((response) => response.json())
-        .then((json) => {
-            dispatch({
-                type: GET_RECIPES,
-                payload: json
-            })
+export function fetchRecipes() {
+    return (dispatch) => {
+        dispatch(getRecipes())
+
+        return(fetch('http://192.168.1.245:8000/recipes/'))
+        .then(res => res.json())
+        .then(json => {
+            return(dispatch(getRecipesSuccess(json)))
         })
-        .catch((error) => console.error(error))
+        .catch(err => dispatch(getRecipesFailure(err)))
+    }
+}
+
+function getRecipes() {
+
+    return {
+        type: FETCHING_RECIPES
+    }
+}
+
+function getRecipesSuccess(data) {
+
+    return {
+        type: FETCH_RECIPES_SUCCESS,
+        data
+    }
+}
+
+function getRecipesFailure() {
+    return {
+        type: FETCH_RECIPES_FAILURE
+    }
 }
 
 // // DELETE RECIPES
