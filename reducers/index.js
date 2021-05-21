@@ -1,9 +1,8 @@
 import { combineReducers } from 'redux'
 import recipes from './recipes'
+import ingredients from './ingredients'
 
 export default combineReducers({
-    // could just do 
-    // recipes
-    // it is the same thing
-    recipes: recipes
+    recipes: recipes,
+    ingredients: ingredients
 })

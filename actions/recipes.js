@@ -1,10 +1,11 @@
 import {FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAILURE, FETCHING_RECIPES, DELETE_RECIPE, ADD_RECIPE} from './types'
+import {API_URL} from '@env'
 
 export function fetchRecipes() {
     return (dispatch) => {
         dispatch(getRecipes())
 
-        return(fetch('http://192.168.1.245:8000/recipes/'))
+        return(fetch(API_URL+'/recipes/'))
         .then(res => res.json())
         .then(json => {
             return(dispatch(getRecipesSuccess(json)))
@@ -28,7 +29,9 @@ function getRecipesSuccess(data) {
     }
 }
 
-function getRecipesFailure() {
+function getRecipesFailure(error) {
+    console.log("Failed fetching recipes")
+    console.log(error)
     return {
         type: FETCH_RECIPES_FAILURE
     }
