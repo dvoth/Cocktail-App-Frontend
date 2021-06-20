@@ -15,14 +15,14 @@ export function fetchRecipes() {
 }
 
 function getRecipes() {
-
+    console.log("Fetching recipes from " +  API_URL + "/recipes/")
     return {
         type: FETCHING_RECIPES
     }
 }
 
 function getRecipesSuccess(data) {
-
+    console.log("Recipe fetching success")
     return {
         type: FETCH_RECIPES_SUCCESS,
         data

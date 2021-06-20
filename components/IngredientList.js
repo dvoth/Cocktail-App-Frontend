@@ -4,7 +4,7 @@ import {SafeAreaView,Image,View,FlatList,Text,Pressable,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../styles/styles';
-import { fetchIngredients } from '../actions/ingredients'
+import { fetchIngredients, addIngredient } from '../actions/ingredients'
 import {API_URL} from '@env';
 
 const IngredientList = props => {
@@ -16,18 +16,8 @@ const IngredientList = props => {
         dispatch(fetchIngredients());
     }, []);
 
-    const addIngredient = (ingredient) => {
-        fetch(API_URL+'/users/1/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                ingredientId: 4
-            })
-        })
-            .then((response) => response.json())
-            .then((json) => console.log(json))
-            .catch((error) => console.error(error))
-        //   .finally(() => setLoading(false));
+    const addUserIngredient = (ingredient) => {
+        dispatch(addIngredient(ingredient));
     }
 
     const addToShoppingCart = (ingredient) => {
@@ -48,7 +38,7 @@ const IngredientList = props => {
                         <View style={styles.ingredientDetails}>
                             <Text style={styles.ingredientTitle}>{item.name}</Text>
                             <View style={styles.ingredientIcons}>
-                                <Pressable onPress={() => addIngredient(item)}>
+                                <Pressable onPress={() => addUserIngredient(item)}>
                                     <Icon name='add' size={20}/>
                                 </Pressable>
                                 <Pressable onPress={() => addToShoppingCart(item)}>
