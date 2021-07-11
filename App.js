@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux'
 import 'react-native-gesture-handler';
 import IngredientScreen from './components/screens/IngredientScreen';
@@ -9,9 +9,16 @@ import MyBarNavigator from './components/navigators/MyBarNavigator';
 import { bottomNavStyles } from './styles/styles';
 import store from './store'
 
+import { loadUser } from './actions/auth'
+
 const Tab = createBottomTabNavigator();
 
 const App = () =>  {
+  useEffect(() => {
+      // attempt to load a user if already sign in
+      store.dispatch(loadUser());
+  }, []);
+
     return (
         <Provider store={store}>
             <NavigationContainer>
