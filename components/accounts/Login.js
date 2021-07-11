@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Pressable,
   TextInput,
-  Button,
   TouchableOpacity,
 } from "react-native";
-import {useSelector, useDispatch} from 'react-redux'
+import { useDispatch } from "react-redux";
 
 import { login } from '../../actions/auth'
  
@@ -17,48 +16,40 @@ const Login = props => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  // isAuthenticated should be populated as soon as the app loads in App.js
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
 
-  if (isAuthenticated) {
-    return (
-      <Text>Profile Screen</Text>
-    )
-  } else {
-    return (
-      <View style={styles.container}>
-   
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Username"
-            placeholderTextColor="#003f5c"
-            onChangeText={(username) => setUsername(username)}
-          />
-        </View>
-   
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-          />
-        </View>
-   
-        <TouchableOpacity>
-          <Text style={styles.forgot_button}>Forgot Password?</Text>
-        </TouchableOpacity>
-   
-        <Pressable onPress={() => dispatch(login(username, password))} style={styles.loginBtn}>
-          <Text style={styles.loginText}>Login</Text>
-        </Pressable>
+  return (
+    <View style={styles.container}>
+  
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Username"
+          placeholderTextColor="#003f5c"
+          onChangeText={(username) => setUsername(username)}
+        />
       </View>
-    );
-  }
+  
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+        />
+      </View>
+  
+      <TouchableOpacity>
+        <Text style={styles.forgot_button}>Forgot Password?</Text>
+      </TouchableOpacity>
+  
+      <Pressable onPress={() => dispatch(login(username, password))} style={styles.loginBtn}>
+        <Text style={styles.loginText}>Login</Text>
+      </Pressable>
+    </View>
+  );
 }
 
 export default Login

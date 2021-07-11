@@ -3,9 +3,8 @@ import {useSelector, useDispatch} from 'react-redux'
 import {SafeAreaView,Image,View,FlatList,Text,Pressable,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
-import { styles } from './../styles/styles';
-import { fetchIngredients, addIngredient } from '../actions/ingredients'
-import {API_URL} from '@env';
+import { styles } from './../../styles/styles';
+import { fetchIngredients, addIngredient } from './../../actions/ingredients'
 
 const IngredientList = props => {
     const dispatch = useDispatch();
