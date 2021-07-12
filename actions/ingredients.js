@@ -60,7 +60,7 @@ function getIngredientsFailure(error) {
 // }
 
 // ADD INGREDIENTS
-export function addIngredient(ingredient) {
+export function addIngredient(ingredient, userId) {
     // Dispatch the ADD_INGREDIENT type
     return (dispatch) => {
         dispatch(() => {
@@ -69,18 +69,19 @@ export function addIngredient(ingredient) {
             }
         })
 
-        const addIngredientUrl = API_URL+'/users/1/'
+        const addIngredientUrl = API_URL+'/users/' + userId + '/'
 
         // Ping API to add the ingredient
         return(fetch(addIngredientUrl, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                ingredientId: 4
+                ingredientId: ingredient.id
             })
         }))
         .then(res => res.json())
         .then(json => {
+            console.log(json)
             return(dispatch(addIngredientSuccess(json)))
         })
         .catch(err => {

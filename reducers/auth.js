@@ -5,7 +5,9 @@ const initialState = {
     token: AsyncStorage.getItem('token'),
     isAuthenticated: null,
     isLoading: false,
-    user: null
+    user: {
+        id: null
+    }
 }
 
 export default function (state = initialState, action) {
@@ -39,9 +41,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 token: null,
-                user: null,
                 isAuthenticated: false,
-                isLoading: false
+                isLoading: false,
+                user: {
+                    id: null
+                }
             }
         default: 
             return state;

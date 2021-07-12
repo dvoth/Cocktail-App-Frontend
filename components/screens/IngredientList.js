@@ -5,10 +5,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../../styles/styles';
 import { fetchIngredients, addIngredient } from './../../actions/ingredients'
+import Toast from 'react-native-simple-toast';
 
 const IngredientList = props => {
     const dispatch = useDispatch();
     const ingredientData = useSelector(state => state.ingredients)
+    const user = useSelector(state => state.auth.user)
   
     useEffect(() => {
         // get ingredients from /actions/ingredients
@@ -16,7 +18,15 @@ const IngredientList = props => {
     }, []);
 
     const addUserIngredient = (ingredient) => {
-        dispatch(addIngredient(ingredient));
+        if (user.id == null) {
+            Toast.show("Please login to add ingredients")
+        } else {
+            dispatch(addIngredient(ingredient, userId));
+        }
+    }
+
+    const userHasIngredient = (ingredient) => {
+        console.log(user)
     }
 
     const addToShoppingCart = (ingredient) => {
@@ -37,6 +47,7 @@ const IngredientList = props => {
                         <View style={styles.ingredientDetails}>
                             <Text style={styles.ingredientTitle}>{item.name}</Text>
                             <View style={styles.ingredientIcons}>
+                                {userHasIngredient(item)}
                                 <Pressable onPress={() => addUserIngredient(item)}>
                                     <Icon name='add' size={20}/>
                                 </Pressable>
