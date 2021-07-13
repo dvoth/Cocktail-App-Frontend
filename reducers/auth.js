@@ -6,7 +6,10 @@ const initialState = {
     isAuthenticated: null,
     isLoading: false,
     user: {
-        id: null
+        id: null,
+        ingredients: [],
+        recipes: [],
+        shoppingList: []
     }
 }
 

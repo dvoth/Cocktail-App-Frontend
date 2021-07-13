@@ -3,7 +3,7 @@ import {
     FETCH_INGREDIENTS_FAILURE, 
     FETCHING_INGREDIENTS,
     DELETE_INGREDIENT, 
-    ADD_INGREDIENT, 
+    ADDING_INGREDIENT, 
     ADD_INGREDIENT_SUCCESS, 
     ADD_INGREDIENT_FAILURE} from './types'
 import {API_URL} from '@env';
@@ -65,7 +65,7 @@ export function addIngredient(ingredient, userId) {
     return (dispatch) => {
         dispatch(() => {
             return {
-                type: ADD_INGREDIENT
+                type: ADDING_INGREDIENT
             }
         })
 
