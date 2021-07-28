@@ -4,7 +4,8 @@ import {SafeAreaView,Image,View,FlatList,Text,Pressable,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../../styles/styles';
-import { fetchIngredients, addIngredient } from './../../actions/ingredients'
+import { fetchIngredients } from './../../actions/ingredients'
+import { addIngredient } from './../../actions/auth'
 import Toast from 'react-native-simple-toast';
 
 const IngredientList = props => {
@@ -19,13 +20,10 @@ const IngredientList = props => {
     }, []);
 
     const addUserIngredient = (ingredient) => {
-        console.log(ingredientData)
         if (user.id == null) {
             Toast.show("Please login to add ingredients")
         } else {
-            console.log(ingredientData.isFetching)
             dispatch(addIngredient(ingredient, user.id));
-            console.log(ingredientData.isFetching)
         }
     }
 
@@ -54,7 +52,8 @@ const IngredientList = props => {
         <SafeAreaView>
             <FlatList
                 data={ingredientData.ingredients}
-                extraData={ingredientData}
+                // Clicking "add ingredient" updates user.ingredients, which should force the FlatList to refresh
+                extraData={user.ingredients}
                 keyExtractor={({ id }, index) =>  String(id) }
                 numColumns={3}
                 renderItem={({ item }) => (

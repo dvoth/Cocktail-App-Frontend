@@ -1,4 +1,16 @@
-import {USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_SUCCESS, LOGOUT_FAIL, REGISTER_SUCCESS, REGISTER_FAIL} from '../actions/types'
+import {
+    USER_LOADING, 
+    USER_LOADED, 
+    AUTH_ERROR, 
+    LOGIN_SUCCESS, 
+    LOGIN_FAIL, 
+    LOGOUT_SUCCESS, 
+    LOGOUT_FAIL, 
+    REGISTER_SUCCESS, 
+    REGISTER_FAIL, 
+    ADD_USER_INGREDIENT_SUCCESS,
+    ADD_USER_INGREDIENT_FAILURE
+} from '../actions/types'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const initialState = {
@@ -26,7 +38,7 @@ export default function (state = initialState, action) {
                 isAuthenticated: true,
                 isLoading: false,
                 user: action.payload
-            } 
+            }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
             AsyncStorage.setItem('token', action.payload.token)
@@ -50,6 +62,18 @@ export default function (state = initialState, action) {
                     id: null
                 }
             }
+        case ADD_USER_INGREDIENT_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    ingredients: [...state.user.ingredients, action.payload]
+                }
+            }
+        case ADD_USER_INGREDIENT_FAILURE:
+            return {
+                ...state
+            }    
         default: 
             return state;
     }

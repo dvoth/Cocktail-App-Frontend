@@ -1,4 +1,12 @@
-import {FETCH_INGREDIENTS_SUCCESS, FETCH_INGREDIENTS_FAILURE, FETCHING_INGREDIENTS, DELETE_INGREDIENT, ADD_INGREDIENT_SUCCESS, ADDING_INGREDIENT} from '../actions/types.js'
+import {
+    FETCH_INGREDIENTS_SUCCESS, 
+    FETCH_INGREDIENTS_FAILURE, 
+    FETCHING_INGREDIENTS, 
+    DELETE_INGREDIENT, 
+    ADD_INGREDIENT_SUCCESS, 
+    ADDING_INGREDIENT, 
+    ADD_INGREDIENT_FAILURE
+} from '../actions/types.js'
 
 const initialState = {
     ingredients: [],
@@ -36,7 +44,14 @@ export default function(state = initialState, action) {
                 ...state,
                 isFetching: false,
                 // Return all the ingredients we currently have along with the newly created ingredient (which is in the payload)
-                ingredients: [...state.ingredients, action.payload]
+                ingredients: [...state.ingredients, action.payload],
+                errors: false
+            }
+        case ADD_INGREDIENT_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                errors: true
             }
         default:
             return state
