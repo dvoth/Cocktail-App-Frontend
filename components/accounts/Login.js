@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { login } from '../../actions/auth'
  
@@ -17,11 +17,21 @@ const Login = props => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch()
+  const errors = useSelector(state => state.auth.errors)
 
+  console.log(errors)
 
   return (
     <View style={styles.container}>
-  
+
+      
+      <View style={styles.errorView}>
+        {errors 
+          ? <Text>Invalid username/password</Text>
+          : <Text></Text>
+        }
+      </View>
+
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}

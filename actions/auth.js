@@ -97,7 +97,15 @@ export const login = (username, password) => (dispatch) => {
     };
 
     fetch(API_URL+'/auth/login', config)
-      .then(res => res.json())
+      .then(res => {
+          // If we get a 400 then invalid username/password
+          if (res.status == 400) {
+            // Throw an error so we don't attempt to dispatch anything to redux on 400
+            throw new Error(res.status)
+          } else {
+            return res.json()
+          }
+      })
       .then(json => {
           console.log("user logged in")
           console.log(json)
@@ -110,6 +118,7 @@ export const login = (username, password) => (dispatch) => {
           console.log(err)
           dispatch({
             type: LOGIN_FAIL,
+            payload: "Invalid username/password"
           });
         });
   };

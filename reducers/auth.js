@@ -22,7 +22,8 @@ const initialState = {
         ingredients: [],
         recipes: [],
         shoppingList: []
-    }
+    },
+    errors: false
 }
 
 export default function (state = initialState, action) {
@@ -37,7 +38,8 @@ export default function (state = initialState, action) {
                 ...state,
                 isAuthenticated: true,
                 isLoading: false,
-                user: action.payload
+                user: action.payload,
+                errors: false
             }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
@@ -46,10 +48,10 @@ export default function (state = initialState, action) {
                 ...state,
                 ...action.payload,
                 isAuthenticated: true,
-                isLoading: false
+                isLoading: false,
+                errors: false
             }
         case AUTH_ERROR:
-        case LOGIN_FAIL:
         case LOGOUT_SUCCESS:
         case REGISTER_FAIL:
             AsyncStorage.removeItem('token')
@@ -61,6 +63,19 @@ export default function (state = initialState, action) {
                 user: {
                     id: null
                 }
+            }
+        
+        case LOGIN_FAIL:
+            AsyncStorage.removeItem('token')
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                isLoading: false,
+                user: {
+                    id: null
+                },
+                errors: true
             }
         case ADD_USER_INGREDIENT_SUCCESS:
             return {
