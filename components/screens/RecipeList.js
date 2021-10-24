@@ -10,6 +10,7 @@ const RecipeList = props => {
     const dispatch = useDispatch();
     const recipeData = useSelector(state => state.recipes)
     const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+    const userIngredients = useSelector(state => state.auth.user.ingredients)
   
     useEffect(() => {
         // get recipes from /actions/recipes
@@ -18,7 +19,7 @@ const RecipeList = props => {
         } else {
             dispatch(fetchAllRecipes());
         }
-    }, [isAuthenticated]); // useEffect will re-render when isAuthenticated changes 
+    }, [isAuthenticated, userIngredients]);
 
     const getListableIngredients = (recipe) => {
         var ingredientList=''
