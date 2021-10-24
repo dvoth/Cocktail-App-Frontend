@@ -22,7 +22,7 @@ export function loadUser() {
   return (dispatch, getState) => {
       dispatch({ type: USER_LOADING })
 
-      return(fetch(API_URL+'/auth/user', tokenConfig(getState))
+      return(fetch(API_URL+'/user', tokenConfig(getState))
         .then(res => {
           // If we get a 401 it's probably because there was an invalid token
           if (res.status == 401) {
