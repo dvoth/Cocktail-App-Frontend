@@ -9,10 +9,7 @@ import {
   LOGOUT_SUCCESS, 
   LOGOUT_FAIL,
   REGISTER_SUCCESS, 
-  REGISTER_FAIL, 
-  ADDING_USER_INGREDIENT, 
-  ADD_USER_INGREDIENT_FAILURE, 
-  ADD_USER_INGREDIENT_SUCCESS
+  REGISTER_FAIL
 } from './types'
 import {API_URL} from '@env';
 
@@ -141,60 +138,6 @@ export const logout = () => (dispatch, getState) => {
         })
         console.log(err)
     })
-}
-
-// ADD USER INGREDIENTS
-export function addIngredient(ingredient, userId) {
-  // Dispatch the ADD_INGREDIENT type
-  return (dispatch) => {
-      dispatch(addingUserIngredient())
-
-      const addUserIngredientUrl = API_URL+'/users/' + userId + '/'
-
-      // Ping API to add the ingredient
-      return(fetch(addUserIngredientUrl, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-              ingredientId: ingredient.id
-          })
-      }))
-      .then(res => res.json())
-      .then(json => {
-          console.log(json)
-          return(
-              dispatch(addIngredientSuccess(json))
-          )
-      })
-      .catch(err => {
-          console.log(addUserIngredientUrl)
-          dispatch(addIngredientFailure(err))
-      })
-  }
-}
-
-function addingUserIngredient() {
-  console.log("Adding user ingredient")
-  return {
-      type: ADDING_USER_INGREDIENT
-  }
-}
-
-
-function addIngredientSuccess(data) {
-  console.log("User ingredient adding success")
-  return {
-      type: ADD_USER_INGREDIENT_SUCCESS,
-      payload: data
-  }
-}
-
-function addIngredientFailure(error) {
-  console.log("Failed adding user ingredient")
-  console.log(error)
-  return {
-      type: ADD_USER_INGREDIENT_FAILURE
-  }
 }
 
 // Setup config with token - helper function
