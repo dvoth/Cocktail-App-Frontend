@@ -4,16 +4,22 @@ import {SafeAreaView,FlatList,Pressable,Text,Image,View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../../styles/styles';
-import {fetchRecipes} from '../../actions/recipes'
+import {fetchAvailableRecipes, fetchAllRecipes} from '../../actions/recipes'
 
 const RecipeList = props => {
     const dispatch = useDispatch();
     const recipeData = useSelector(state => state.recipes)
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+    const userIngredients = useSelector(state => state.auth.user.ingredients)
   
     useEffect(() => {
         // get recipes from /actions/recipes
-        dispatch(fetchRecipes());
-    }, []);
+        if (isAuthenticated) {
+            dispatch(fetchAvailableRecipes());
+        } else {
+            dispatch(fetchAllRecipes());
+        }
+    }, [isAuthenticated, userIngredients]);
 
     const getListableIngredients = (recipe) => {
         var ingredientList=''

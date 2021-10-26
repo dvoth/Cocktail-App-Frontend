@@ -1,11 +1,15 @@
 import {FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAILURE, FETCHING_RECIPES, DELETE_RECIPE, ADD_RECIPE} from './types'
+import { tokenConfig } from './auth'
 import {API_URL} from '@env'
 
-export function fetchRecipes() {
-    return (dispatch) => {
-        dispatch(getRecipes())
+export function fetchAvailableRecipes() {
+    return (dispatch, getState) => {
+        const config = tokenConfig(getState)
+        const recipeUrl = API_URL+'/user/available-recipes/'
 
-        return(fetch(API_URL+'/recipes/'))
+        dispatch(getRecipes(recipeUrl))
+
+        return(fetch(recipeUrl, config))
         .then(res => res.json())
         .then(json => {
             return(dispatch(getRecipesSuccess(json)))
@@ -14,8 +18,23 @@ export function fetchRecipes() {
     }
 }
 
-function getRecipes() {
-    console.log("Fetching recipes from " +  API_URL + "/recipes/")
+export function fetchAllRecipes() {
+    return (dispatch, getState) => {
+        const recipeUrl = API_URL+'/recipes/'
+
+        dispatch(getRecipes(recipeUrl))
+
+        return(fetch(recipeUrl))
+        .then(res => res.json())
+        .then(json => {
+            return(dispatch(getRecipesSuccess(json)))
+        })
+        .catch(err => dispatch(getRecipesFailure(err)))
+    }
+}
+
+function getRecipes(url) {
+    console.log("Fetching recipes from " +  url)
     return {
         type: FETCHING_RECIPES
     }

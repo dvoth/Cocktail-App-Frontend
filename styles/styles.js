@@ -90,6 +90,16 @@ export const styles = StyleSheet.create({
         justifyContent: 'center'
     },
 
+    filter: {
+        position: 'relative',
+    }, 
+    filterButton: {
+        borderRadius: 0.125,
+        paddingTop: 0.5,
+        paddingHorizontal: 1,
+        backgroundColor: '#2b7de9'
+    }
+
 })
 
 // This is not typical react native styling, refer to https://reactnavigation.org/docs/bottom-tab-navigator#tabbaroptions

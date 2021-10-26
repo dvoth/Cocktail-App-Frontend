@@ -4,7 +4,7 @@ import {SafeAreaView,Image,View,FlatList,Text,Pressable,} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import 'react-native-gesture-handler';
 import { styles } from './../../styles/styles';
-import { fetchIngredients } from './../../actions/ingredients'
+import { fetchIngredients, addUserIngredient } from './../../actions/ingredients'
 import { addIngredient } from './../../actions/auth'
 import Toast from 'react-native-simple-toast';
 
@@ -19,11 +19,11 @@ const IngredientList = props => {
         dispatch(fetchIngredients());
     }, []);
 
-    const addUserIngredient = (ingredient) => {
+    const addIngredient = (ingredient) => {
         if (user.id == null) {
             Toast.show("Please login to add ingredients")
         } else {
-            dispatch(addIngredient(ingredient, user.id));
+            dispatch(addUserIngredient(ingredient));
         }
     }
 
@@ -66,7 +66,7 @@ const IngredientList = props => {
                             {userHasIngredient(item) ?
                                 <Text>Has Ingredient</Text>
                             : <View style={styles.ingredientIcons}>
-                                    <Pressable onPress={() => addUserIngredient(item)}>
+                                    <Pressable onPress={() => addIngredient(item)}>
                                         <Icon name='add' size={20}/>
                                     </Pressable>
                                     <Pressable onPress={() => addToShoppingCart(item)}>
