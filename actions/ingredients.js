@@ -2,7 +2,9 @@ import {
     FETCH_INGREDIENTS_SUCCESS, 
     FETCH_INGREDIENTS_FAILURE, 
     FETCHING_INGREDIENTS,
-    DELETE_INGREDIENT, 
+    REMOVING_USER_INGREDIENT, 
+    REMOVE_USER_INGREDIENT_SUCCESS, 
+    REMOVE_USER_INGREDIENT_FAILURE, 
     ADDING_INGREDIENT, 
     ADD_INGREDIENT_SUCCESS, 
     ADD_INGREDIENT_FAILURE,
@@ -30,7 +32,6 @@ export function addUserIngredient(ingredient) {
         return(fetch(addUserIngredientUrl, config))
             .then(res => res.json())
             .then(json => {
-                console.log(json)
                 return(
                     dispatch(addIngredientSuccess(json))
                 )
@@ -105,15 +106,53 @@ function getIngredientsFailure(error) {
     }
 }
 
-// // DELETE INGREDIENTS
-// export const deleteIngredient = (id) => dispatch => {
-//     axios.delete(`/api/ingredients/${id}`)
-//         .then(res => {
-//             dispatch({
-//                 type: DELETE_INGREDIENT,
-//                 payload: id
-//             })
-//         })
-//         .catch(err => console.log(err))
-// }
+export function removeUserIngredient(ingredient) {
+    return (dispatch, getState) => {
+        const config = tokenConfig(getState)
+        const removeUserIngredientUrl = API_URL + '/user/ingredients/' + ingredient.id + '/'
 
+        config['method'] = 'DELETE'
+        config['body'] = JSON.stringify({
+            ingredientId: ingredient.id
+        })
+
+        dispatch(removingUserIngredient())
+
+        // Ping API to remove the ingredient
+        return(fetch(removeUserIngredientUrl, config))
+            .then(res => res.json())
+            .then(json => {
+                return(
+                    dispatch(removeIngredientSuccess(json))
+                )
+            })
+            .catch(err => {
+                console.log(removeUserIngredientUrl)
+                dispatch(removeIngredientFailure(err))
+            })
+    }
+}
+
+function removingUserIngredient() {
+    console.log("Removing user ingredient")
+    return {
+        type: REMOVING_USER_INGREDIENT
+    }
+}
+
+
+function removeIngredientSuccess(data) {
+    console.log("User ingredient removing success")
+    return {
+        type: REMOVE_USER_INGREDIENT_SUCCESS,
+        payload: data
+    }
+}
+
+function removeIngredientFailure(error) {
+    console.log("Failed removing user ingredient")
+    console.log(error)
+    return {
+        type: REMOVE_USER_INGREDIENT_FAILURE
+    }
+}

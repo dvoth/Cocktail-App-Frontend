@@ -2,7 +2,6 @@ import {
     FETCH_INGREDIENTS_SUCCESS, 
     FETCH_INGREDIENTS_FAILURE, 
     FETCHING_INGREDIENTS, 
-    DELETE_INGREDIENT, 
     ADD_INGREDIENT_SUCCESS, 
     ADDING_INGREDIENT, 
     ADD_INGREDIENT_FAILURE
@@ -32,13 +31,6 @@ export default function(state = initialState, action) {
                 ...state,
                 isFetching: true
             }
-        case DELETE_INGREDIENT:
-            return {
-                ...state,
-                // Return all ingredients except for the one we deleted (whose ID is in the payload)
-                ingredients: state.ingredients.filter(ingredient => ingredient.id !== action.payload)
-            }
-        
         case ADD_INGREDIENT_SUCCESS:
             return {
                 ...state,
