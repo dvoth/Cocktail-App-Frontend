@@ -9,7 +9,10 @@ import {
     REGISTER_SUCCESS, 
     REGISTER_FAIL, 
     ADD_USER_INGREDIENT_SUCCESS,
-    ADD_USER_INGREDIENT_FAILURE
+    ADD_USER_INGREDIENT_FAILURE,
+    REMOVING_USER_INGREDIENT, 
+    REMOVE_USER_INGREDIENT_SUCCESS, 
+    REMOVE_USER_INGREDIENT_FAILURE
 } from '../actions/types'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -89,6 +92,29 @@ export default function (state = initialState, action) {
             return {
                 ...state
             }    
+        
+        case REMOVING_USER_INGREDIENT:
+            return {
+                ...state,
+                isRemoving: true
+            }
+        case REMOVE_USER_INGREDIENT_SUCCESS:
+            return {
+                ...state,
+                isRemoving: false,
+                // Return all the ingredients we currently have, except for what was just deleted
+                user: {
+                    ...state.user,
+                    ingredients: state.user.ingredients.filter(element => element.id !== action.payload.id)
+                },
+                errors: false
+            }
+        case REMOVE_USER_INGREDIENT_FAILURE:
+            return {
+                ...state,
+                isRemoving: false,
+                errors: true
+            }
         default: 
             return state;
     }
