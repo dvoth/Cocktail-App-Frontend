@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -17,7 +18,7 @@ const Login = props => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch()
-  const errors = useSelector(state => state.auth.errors)
+  const errors = useSelector(state => state.auth.loginError)
 
   console.log(errors)
 
@@ -26,10 +27,12 @@ const Login = props => {
 
       
       <View style={styles.errorView}>
-        {errors 
-          ? <Text>Invalid username/password</Text>
-          : <Text></Text>
-        }
+        <Text>At least the view works</Text>
+        <FlatList
+          data={errors}
+          renderItem={({ item }) => (
+            <Text>Test</Text>
+          )}/>
       </View>
 
       <View style={styles.inputView}>
@@ -58,6 +61,10 @@ const Login = props => {
       <Pressable onPress={() => dispatch(login(username, password))} style={styles.loginBtn}>
         <Text style={styles.loginText}>Login</Text>
       </Pressable>
+
+      <TouchableOpacity  onPress={() => props.navigation.navigate('Register')}>
+        <Text style={styles.forgot_button}>Don't have an account? Register Now</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -66,6 +73,13 @@ export default Login
  
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  errorView: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",

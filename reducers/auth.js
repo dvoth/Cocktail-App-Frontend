@@ -26,7 +26,8 @@ const initialState = {
         recipes: [],
         shoppingList: []
     },
-    errors: false
+    loginError: [],
+    registerError: ''
 }
 
 export default function (state = initialState, action) {
@@ -42,7 +43,7 @@ export default function (state = initialState, action) {
                 isAuthenticated: true,
                 isLoading: false,
                 user: action.payload,
-                errors: false
+                loginError: []
             }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
@@ -52,11 +53,11 @@ export default function (state = initialState, action) {
                 ...action.payload,
                 isAuthenticated: true,
                 isLoading: false,
-                errors: false
+                loginError: [],
+                registerError: false
             }
         case AUTH_ERROR:
         case LOGOUT_SUCCESS:
-        case REGISTER_FAIL:
             AsyncStorage.removeItem('token')
             return {
                 ...state,
@@ -67,9 +68,7 @@ export default function (state = initialState, action) {
                     id: null
                 }
             }
-        
-        case LOGIN_FAIL:
-            AsyncStorage.removeItem('token')
+        case REGISTER_FAIL:
             return {
                 ...state,
                 token: null,
@@ -78,14 +77,27 @@ export default function (state = initialState, action) {
                 user: {
                     id: null
                 },
-                errors: true
+                registerError: action.payload.error
+            }
+
+        case LOGIN_FAIL:
+            AsyncStorage.removeItem('token')
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                // isLoading: false,
+                user: {
+                    id: null
+                },
+                loginError: action.payload
             }
         case ADD_USER_INGREDIENT_SUCCESS:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    ingredients: [...state.user.ingredients, action.payload]
+                    ingredients: action.payload
                 }
             }
         case ADD_USER_INGREDIENT_FAILURE:
@@ -106,14 +118,12 @@ export default function (state = initialState, action) {
                 user: {
                     ...state.user,
                     ingredients: state.user.ingredients.filter(element => element.id !== action.payload.id)
-                },
-                errors: false
+                }
             }
         case REMOVE_USER_INGREDIENT_FAILURE:
             return {
                 ...state,
-                isRemoving: false,
-                errors: true
+                isRemoving: false
             }
         default: 
             return state;

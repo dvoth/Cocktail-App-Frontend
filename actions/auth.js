@@ -1,5 +1,3 @@
-// import {returnErrors} from './messages'
-
 import {
   USER_LOADED,
   USER_LOADING, 
@@ -11,6 +9,7 @@ import {
   REGISTER_SUCCESS, 
   REGISTER_FAIL
 } from './types'
+import { handleErrors } from './messages';
 import {API_URL} from '@env';
 
 // CHECK TOKEN AND LOAD USER
@@ -41,15 +40,13 @@ export function loadUser() {
             dispatch({
                 type: AUTH_ERROR
             })
-            console.log("Load user failed, likely do to an inactive or empty token")
-            console.log(err)
         })
       )
   }
 }
 
 // REGISTER USER
-export const register = ({username, password, email}) => (dispatch) => {
+export const register = (username, password, password2, email) => (dispatch) => {
   // Headers
   const config = {
     method: 'POST',
@@ -64,20 +61,20 @@ export const register = ({username, password, email}) => (dispatch) => {
   }
 
   fetch(API_URL+'/auth/register', config)
-    .then(res => res.json())
-    .then(json => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: json,
-      });
-    })
-    .catch((err) => {
-      console.log(err)
-      dispatch({
-        type: REGISTER_FAIL,
-      });
+  .then(res => res.json())
+  .then(json => {
+    console.log(json)
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: json,
     });
-    
+  })
+  .catch((err) => {
+    // dispatch(returnErrors(err.response.data, err.response.status));
+    dispatch({
+      type: REGISTER_FAIL
+    });
+  });
 };
 
 // LOGIN USER
@@ -94,28 +91,18 @@ export const login = (username, password) => (dispatch) => {
     };
 
     fetch(API_URL+'/auth/login', config)
-      .then(res => {
-          // If we get a 400 then invalid username/password
-          if (res.status == 400) {
-            // Throw an error so we don't attempt to dispatch anything to redux on 400
-            throw new Error(res.status)
-          } else {
-            return res.json()
-          }
-      })
+      .then(handleErrors)
       .then(json => {
-          console.log("user logged in")
-          console.log(json)
           dispatch({
             type: LOGIN_SUCCESS,
             payload: json,
           });
         })
         .catch((err) => {
-          console.log(err)
+          const arrayOfErrors = Object.entries(JSON.parse(err.message))
           dispatch({
             type: LOGIN_FAIL,
-            payload: "Invalid username/password"
+            payload: arrayOfErrors
           });
         });
   };
@@ -136,7 +123,6 @@ export const logout = () => (dispatch, getState) => {
         dispatch({
             type: LOGOUT_FAIL
         })
-        console.log(err)
     })
 }
 
