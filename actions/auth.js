@@ -29,8 +29,6 @@ export function loadUser() {
           }
         })
         .then(json => {
-            console.log("load user success")
-            console.log(json)
             dispatch({
                 type: USER_LOADED,
                 payload: json
@@ -64,7 +62,6 @@ export const register = (username, password, password2, email) => (dispatch) => 
   fetch(API_URL+'/auth/register', config)
   .then(handleErrors)
   .then(json => {
-    console.log(json)
     dispatch({
       type: REGISTER_SUCCESS,
       payload: json,
@@ -72,7 +69,6 @@ export const register = (username, password, password2, email) => (dispatch) => 
   })
   .catch((err) => {
     const arrayOfErrors = Object.entries(JSON.parse(err.message))
-    console.log(arrayOfErrors)
     dispatch({
       type: REGISTER_FAIL,
       payload: arrayOfErrors
