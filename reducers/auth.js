@@ -27,7 +27,7 @@ const initialState = {
         shoppingList: []
     },
     loginError: [],
-    registerError: ''
+    registerError: []
 }
 
 export default function (state = initialState, action) {
@@ -77,7 +77,7 @@ export default function (state = initialState, action) {
                 user: {
                     id: null
                 },
-                registerError: action.payload.error
+                registerError: action.payload
             }
 
         case LOGIN_FAIL:

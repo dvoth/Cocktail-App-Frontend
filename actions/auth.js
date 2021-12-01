@@ -55,13 +55,14 @@ export const register = (username, password, password2, email) => (dispatch) => 
     },
     body: JSON.stringify({
       username, 
-      password, 
+      password,
+      password2, 
       email 
     })
   }
 
   fetch(API_URL+'/auth/register', config)
-  .then(res => res.json())
+  .then(handleErrors)
   .then(json => {
     console.log(json)
     dispatch({
@@ -70,9 +71,11 @@ export const register = (username, password, password2, email) => (dispatch) => 
     });
   })
   .catch((err) => {
-    // dispatch(returnErrors(err.response.data, err.response.status));
+    const arrayOfErrors = Object.entries(JSON.parse(err.message))
+    console.log(arrayOfErrors)
     dispatch({
-      type: REGISTER_FAIL
+      type: REGISTER_FAIL,
+      payload: arrayOfErrors
     });
   });
 };

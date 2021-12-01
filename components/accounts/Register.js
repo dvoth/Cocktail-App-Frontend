@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  FlatList,
   StyleSheet,
   Text,
   View,
@@ -10,6 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { register } from '../../actions/auth'
+import { constructErrorMessage } from './../../actions/messages';
  
 const Register = props => {
 
@@ -19,20 +21,19 @@ const Register = props => {
     const [password2, setPassword2] = useState("");
 
     const dispatch = useDispatch()
-    const error = useSelector(state => state.auth.registerError)
+    const errors = useSelector(state => state.auth.registerError)
   
-    console.log(error)
   
     return (
       <View style={styles.container}>
   
-        
-        {error
-        ?<View style={styles.errorView}>
-             <Text>{error}</Text>
+        <View style={styles.errorContainer}>
+          <FlatList
+            data={errors}
+            renderItem={({ item }) => (
+              <Text style={styles.errorText}>{constructErrorMessage(item)}</Text>
+          )}/>
         </View>
-        :<Text></Text>
-        }
   
         <View style={styles.inputView}>
           <TextInput
@@ -91,6 +92,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  
+  errorContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  errorText: {
+    color: 'red'
   },
  
   image: {
