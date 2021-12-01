@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   FlatList,
+  Linking,
   StyleSheet,
   Text,
   View,
@@ -10,6 +11,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { constructErrorMessage } from './../../actions/messages';
+import {API_URL} from '@env';
 
 
 import { login } from '../../actions/auth'
@@ -51,7 +53,7 @@ const Login = props => {
           />
         </View>
     
-        <TouchableOpacity style={styles.forgot_button}>
+        <TouchableOpacity style={styles.forgot_button} onPress={ ()=>{ Linking.openURL(API_URL + '/accounts/password_reset')}}>
           <Text>Forgot Password?</Text>
         </TouchableOpacity>
     
