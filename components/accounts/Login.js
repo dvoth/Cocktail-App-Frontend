@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  FlatList,
+  Linking,
   StyleSheet,
   Text,
   View,
@@ -8,6 +10,9 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { constructErrorMessage } from './../../actions/messages';
+import {API_URL} from '@env';
+
 
 import { login } from '../../actions/auth'
  
@@ -17,47 +22,49 @@ const Login = props => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch()
-  const errors = useSelector(state => state.auth.errors)
-
-  console.log(errors)
+  const errors = useSelector(state => state.auth.loginError)
 
   return (
     <View style={styles.container}>
+      <View style={styles.errorContainer}>
+        <FlatList
+          data={errors}
+          renderItem={({ item }) => (
+            <Text style={styles.errorText}>{constructErrorMessage(item)}</Text>
+          )}/>
+      </View>
+      <View style={styles.inputContainer}>  
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Username"
+            placeholderTextColor="#003f5c"
+            onChangeText={(username) => setUsername(username)}
+          />
+        </View>
+    
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Password"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(password) => setPassword(password)}
+          />
+        </View>
+    
+        <TouchableOpacity style={styles.forgot_button} onPress={ ()=>{ Linking.openURL(API_URL + '/accounts/password_reset')}}>
+          <Text>Forgot Password?</Text>
+        </TouchableOpacity>
+    
+        <Pressable onPress={() => dispatch(login(username, password))} style={styles.loginBtn}>
+          <Text style={styles.loginText}>Login</Text>
+        </Pressable>
 
-      
-      <View style={styles.errorView}>
-        {errors 
-          ? <Text>Invalid username/password</Text>
-          : <Text></Text>
-        }
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Username"
-          placeholderTextColor="#003f5c"
-          onChangeText={(username) => setUsername(username)}
-        />
-      </View>
-  
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-  
-      <TouchableOpacity>
-        <Text style={styles.forgot_button}>Forgot Password?</Text>
-      </TouchableOpacity>
-  
-      <Pressable onPress={() => dispatch(login(username, password))} style={styles.loginBtn}>
-        <Text style={styles.loginText}>Login</Text>
-      </Pressable>
+        <TouchableOpacity style={styles.forgot_button} onPress={() => props.navigation.navigate('Register')}>
+          <Text>Don't have an account? Register Now</Text>
+        </TouchableOpacity>
+      </View>    
     </View>
   );
 }
@@ -71,35 +78,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
- 
-  image: {
-    marginBottom: 40,
+
+  errorContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  errorText: {
+    color: 'red'
+  },
+
+  inputContainer: {
+    flex: 5
   },
  
   inputView: {
     backgroundColor: "#FFC0CB",
     borderRadius: 30,
-    width: "70%",
-    height: 45,
     marginBottom: 20,
- 
     alignItems: "center",
-  },
- 
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    marginLeft: 20,
-  },
- 
-  forgot_button: {
-    height: 30,
-    marginBottom: 30,
+    justifyContent: 'center'
   },
  
   loginBtn: {
-    width: "80%",
     borderRadius: 25,
     height: 50,
     alignItems: "center",
@@ -107,4 +109,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     backgroundColor: "#FF1493",
   },
+
+  forgot_button: {
+    justifyContent: 'center',
+    alignItems: "center",
+  }
 });
