@@ -1,7 +1,6 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import AddRecipe from './AddRecipe';
-import SearchTest from './SearchTest';
 import Recipe from './Recipe';
 import RecipeList from './RecipeList';
 import { createStackNavigator } from '@react-navigation/stack';

@@ -26,6 +26,16 @@ export const styles = StyleSheet.create({
     inputContainer: {
         flex: 5
     },
+
+    searchBarFieldContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },  
+
+    searchBarInput: {
+        alignSelf: 'stretch',
+    },
      
     inputView: {
         backgroundColor: "#FFC0CB",

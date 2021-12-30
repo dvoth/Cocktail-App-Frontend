@@ -7,6 +7,7 @@ import {
     Pressable,
     TextInput,
     TouchableOpacity,
+    ScrollView,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -14,6 +15,7 @@ import { constructErrorMessage } from './../../actions/messages';
 import { fetchIngredients } from './../../actions/ingredients'
 import {API_URL} from '@env';
 import RecipeIngredientsSection from "../sections/RecipeIngredientSection";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from './../../styles/styles';
 
@@ -61,7 +63,7 @@ const AddRecipe = props => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             {/* TODO: Instead of showing a list of errors, update to show error below each field with an error */}
             {/* <View style={styles.loginErrorContainer}> */}
             <View>
@@ -89,7 +91,7 @@ const AddRecipe = props => {
             <Pressable onPress={() => dispatch()} style={styles.loginBtn}>
                 <Text style={styles.loginText}>Add Recipe</Text>
             </Pressable>
-        </View>
+        </ScrollView>
   );
 }
 

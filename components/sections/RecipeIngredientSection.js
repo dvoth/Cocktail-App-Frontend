@@ -23,11 +23,11 @@ const defaultOptions = {
 }
 
 const RecipeIngredientsSection = ({options}) => {
-    const [open, setopen] = useState(true);
+    const newOptions = mergeOptions(options)
+
+    const [open, setopen] = useState(newOptions.open);
     const [addingIngredient, setAddingIngredient] = useState(false);
     const [recipeIngredients, setRecipeIngredients] = useState([])
-    const [searchText, setSearchText] = useState()
-    const newOptions = mergeOptions(options)
     const [filteredIngredients, setFilteredIngredients] = useState(newOptions.ingredients)
 
     const onPress = () => {
@@ -68,7 +68,6 @@ const RecipeIngredientsSection = ({options}) => {
                             // If adding an ingredient, show input fields for adding a RecipeIngredient
                             ? <IngredientFilter 
                                 allIngredients={newOptions.ingredients}
-                                searchText={searchText}
                                 onFilterChange={(ingredients) => setFilteredIngredients(ingredients)}
                               />
                             // If not adding an ingredient, show the button to press to add a new RecipeIngredient
