@@ -18,7 +18,7 @@ const RecipeIngredientsSection = ({ recipe }) => {
     };
     
     return (
-        <TouchableOpacity style={[styles.recipeSection, !open && { height: 40 }]} onPress={onPress} activeOpacity={1}>
+        <TouchableOpacity style={[styles.recipeSection, !open && { height: 50 }]} onPress={onPress} activeOpacity={1}>
         <Text style={styles.recipeSectionHeader}>Ingredients</Text>
             {open && (
                 <FlatList 
@@ -41,7 +41,7 @@ const RecipeDirectionsSection = ({ recipe }) => {
     };
     
     return (
-        <TouchableOpacity style={[styles.recipeSection, !open && { height: 40 }]} onPress={onPress} activeOpacity={1}>
+        <TouchableOpacity style={[styles.recipeSection, !open && { height: 50 }]} onPress={onPress} activeOpacity={1}>
             <Text style={styles.recipeSectionHeader}>Steps</Text>
             {open && (
                 <FlatList 

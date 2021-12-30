@@ -13,6 +13,49 @@ const {width} = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
 
+    // GENERIC 
+    container: {
+        flex: 1,
+        margin: 10,
+    },
+
+    titleContainer: {
+        
+    },
+
+    inputContainer: {
+        flex: 5
+    },
+     
+    inputView: {
+        backgroundColor: "#FFC0CB",
+        borderRadius: 30,
+        marginBottom: 20,
+        alignItems: "center",
+        justifyContent: 'center'
+    },
+
+    addButtonContainer: {
+        borderRadius: .5,
+        alignItems: 'flex-end',
+        marginRight: 10,
+        marginBottom: 30
+
+    },
+
+    addButtonCircle: {
+        backgroundColor: mainColor,
+        borderRadius: 50,
+    },
+
+    addButtonIcon: {
+        color: 'lightgray'
+    },
+
+    addIngredientButton: {
+        flexDirection: 'row'
+    },
+
     // CARD STYLES
     recipeCard: {
         margin: 10,
@@ -98,7 +141,43 @@ export const styles = StyleSheet.create({
         paddingTop: 0.5,
         paddingHorizontal: 1,
         backgroundColor: '#2b7de9'
-    }
+    },
+    
+    recipeListContainer: {
+        flex: 1
+    },
+
+    // LOGIN 
+    loginContainer: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    
+      loginErrorContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+    
+      loginErrorText: {
+        color: 'red'
+      },
+     
+      loginBtn: {
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 40,
+        backgroundColor: "#FF1493",
+      },
+    
+      forgot_button: {
+        justifyContent: 'center',
+        alignItems: "center",
+      }
 
 })
 

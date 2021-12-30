@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { constructErrorMessage } from './../../actions/messages';
+import { styles } from './../../styles/styles';
 import {API_URL} from '@env';
 
 
@@ -25,12 +26,12 @@ const Login = props => {
   const errors = useSelector(state => state.auth.loginError)
 
   return (
-    <View style={styles.container}>
-      <View style={styles.errorContainer}>
+    <View style={styles.loginContainer}>
+      <View style={styles.loginErrorContainer}>
         <FlatList
           data={errors}
           renderItem={({ item }) => (
-            <Text style={styles.errorText}>{constructErrorMessage(item)}</Text>
+            <Text style={styles.loginErrorText}>{constructErrorMessage(item)}</Text>
           )}/>
       </View>
       <View style={styles.inputContainer}>  
@@ -71,47 +72,3 @@ const Login = props => {
 
 export default Login
  
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  errorContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  errorText: {
-    color: 'red'
-  },
-
-  inputContainer: {
-    flex: 5
-  },
- 
-  inputView: {
-    backgroundColor: "#FFC0CB",
-    borderRadius: 30,
-    marginBottom: 20,
-    alignItems: "center",
-    justifyContent: 'center'
-  },
- 
-  loginBtn: {
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    backgroundColor: "#FF1493",
-  },
-
-  forgot_button: {
-    justifyContent: 'center',
-    alignItems: "center",
-  }
-});
