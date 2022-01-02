@@ -27,6 +27,12 @@ export const styles = StyleSheet.create({
         flex: 5
     },
 
+    inputError: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: 'red'
+    },
+
     searchBarFieldContainer: {
         flex: 1,
         flexDirection: 'row',
@@ -62,8 +68,8 @@ export const styles = StyleSheet.create({
         color: 'lightgray'
     },
 
-    addIngredientButton: {
-        flexDirection: 'row'
+    flexRow: {
+        flexDirection: 'row',
     },
 
     // CARD STYLES

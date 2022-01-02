@@ -1,4 +1,13 @@
-import {FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAILURE, FETCHING_RECIPES, DELETE_RECIPE, ADD_RECIPE} from './types'
+import {
+    FETCH_RECIPES_SUCCESS, 
+    FETCH_RECIPES_FAILURE, 
+    FETCHING_RECIPES, 
+    DELETE_RECIPE, 
+    ADD_RECIPE,
+    VALIDATE_ADD_RECIPE_INGREDIENT_FAILURE, 
+    VALIDATE_ADD_RECIPE_INGREDIENT_SUCCESS,
+    REMOVE_NEW_RECIPE_INGREDIENT
+} from './types'
 import { tokenConfig } from './auth'
 import {API_URL} from '@env'
 
@@ -56,6 +65,52 @@ function getRecipesFailure(error) {
     }
 }
 
+export function addNewRecipeIngredient(recipeIngredient) {
+    return (dispatch, getState) => {
+        var errors = {}
+
+        if (recipeIngredient.ingredient == null || recipeIngredient.ingredient == undefined || !recipeIngredient.ingredient) {
+            errors = { ...errors, ingredientError: true };
+        }
+    
+        if (recipeIngredient.quantity == null || recipeIngredient.quantity == undefined || !recipeIngredient.quantity) {
+            errors = { ...errors, quantityError: true };
+        }
+    
+        if (recipeIngredient.unit == null || recipeIngredient.unit == undefined || !recipeIngredient.unit) {
+            errors = { ...errors, unitError: true };
+        }
+    
+        if (errors.ingredientError == true || errors.quantityError == true || errors.unitError == true) {
+            dispatch(validateRecipeFailure(errors))
+        } else {
+            dispatch(validateRecipeSuccess(recipeIngredient))
+        }
+    }
+}
+
+export function removeNewRecipeIngredient(recipeIngredient) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: REMOVE_NEW_RECIPE_INGREDIENT,
+            payload: recipeIngredient
+        })
+    }
+}
+
+function validateRecipeFailure(errors) {
+    return {
+        type: VALIDATE_ADD_RECIPE_INGREDIENT_FAILURE,
+        payload: errors
+    }
+}
+
+function validateRecipeSuccess(recipeIngredient) {
+    return {
+        type: VALIDATE_ADD_RECIPE_INGREDIENT_SUCCESS,
+        payload: recipeIngredient
+    }
+}
 // // DELETE RECIPES
 // export const deleteRecipe = (id) => dispatch => {
 //     axios.delete(`/api/recipes/${id}`)

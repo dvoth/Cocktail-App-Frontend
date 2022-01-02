@@ -25,7 +25,7 @@ const RecipeIngredientsSection = ({ recipe }) => {
                     data={recipe.ingredients}
                     keyExtractor={item => String(item.id)}
                     renderItem={({ item }) => (
-                        <Text>{parseInt(item.measure)} {item.unit} {item.ingredient.name}</Text>
+                        <Text>{parseInt(item.quantity)} {item.unit} {item.ingredient.name}</Text>
                     )}
                 />
             )}

@@ -20,10 +20,13 @@ import { styles } from './../../styles/styles';
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const IngredientFilter = ({ allIngredients }) => {
+const IngredientFilter = ({ allIngredients, onSelectedIngredient }) => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const [filteredIngredients, setFilteredIngredients] = useState(allIngredients);
+    const [filteredIngredients, setFilteredIngredients] = useState();
+    const [selectedIngredient, setSelectedIngredient] = useState(false);
+    const [searchText, setSearchText] = useState();
+    const [editableSearchText, setEditableSearchText] = useState(true);
 
     function contains(ingredient, query) {
         if (
@@ -39,13 +42,28 @@ const IngredientFilter = ({ allIngredients }) => {
         return false
       }
 
-    function handleSearch(searchText) {
-        const formattedQuery = searchText.toLowerCase()
+    function handleSearch(query) {
+        const formattedQuery = query.toLowerCase()
         const data = filter(allIngredients, function(ingredient) {
             return contains(ingredient, formattedQuery)
         })
+        setSearchText(query)
         setFilteredIngredients(data)
-      }
+    }
+
+    function cancelSearch() {
+        setSearchText("")
+        setFilteredIngredients([])
+        setEditableSearchText(true)
+        onSelectedIngredient(null)
+    }
+
+    function handleSelectedIngredient(ingredient) {
+        setSearchText(ingredient.name)
+        setFilteredIngredients([])
+        setEditableSearchText(false)
+        onSelectedIngredient(ingredient)
+    }
 
     function renderHeader() {
         return (
@@ -54,7 +72,12 @@ const IngredientFilter = ({ allIngredients }) => {
                 <TextInput style={styles.searchBarInput}
                     placeholder="Search Ingredients"
                     onChangeText={handleSearch}
+                    value={searchText}
+                    editable={editableSearchText}
                 />
+                <Pressable onPress={() => cancelSearch()}>
+                    <Icon style={{color: 'grey'}} name='clear' size={20} />
+                </Pressable>
             </View>
         )
     }
@@ -87,22 +110,24 @@ const IngredientFilter = ({ allIngredients }) => {
     }
 
     return (
-        <View>
+        <View style={{flex: 8}}>
             <FlatList
             data={filteredIngredients}
             renderItem={({ item }) => (
-                <View
-                    style={{
-                    flexDirection: 'row',
-                    padding: 16,
-                    alignItems: 'center'
-                    }}>
-                    <Text
-                    category='s1'
-                    style={{
-                        color: '#000'
-                    }}>{item.name}</Text>
-                </View>
+                <TouchableOpacity onPress={() => handleSelectedIngredient(item)}>
+                    <View
+                        style={{
+                        flexDirection: 'row',
+                        padding: 16,
+                        alignItems: 'center'
+                        }}>
+                        <Text
+                        category='s1'
+                        style={{
+                            color: '#000'
+                        }}>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
             )}
             keyExtractor={item => String(item.id)}
             ItemSeparatorComponent={renderSeparator}
