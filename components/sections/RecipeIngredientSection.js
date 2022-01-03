@@ -16,7 +16,7 @@ import {API_URL} from '@env';
 
 import { styles } from './../../styles/styles';
 
-import { addNewRecipeIngredient, removeNewRecipeIngredient } from '../../actions/recipes'
+import { addNewRecipeIngredient, clearRecipeIngredientErrors, removeNewRecipeIngredient } from '../../actions/recipes'
 
 const defaultOptions = {
     open: false,
@@ -44,6 +44,7 @@ const RecipeIngredientsSection = ({options}) => {
 
     // When our errors change, we need to clear the inputs and what not
     useEffect(() => {
+        console.log(errors)
         if (errors.errorFree) {
             clearInputs()
         }
@@ -77,6 +78,11 @@ const RecipeIngredientsSection = ({options}) => {
         
         dispatch(addNewRecipeIngredient(newRecipeIngredient))
     }
+    
+    function removeInProgressIngredient() {
+        clearInputs()
+        dispatch(clearRecipeIngredientErrors())
+    }
 
     const clearInputs = () => {
         setAddingIngredient()
@@ -97,7 +103,7 @@ const RecipeIngredientsSection = ({options}) => {
                         renderItem={({ item }) => (
                             <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-between'}}>
                                 <Text>{parseInt(item.quantity)} {item.unit} {item.ingredient.name}</Text>
-                                <Pressable style={{alignSelf: 'center'}} onPress={() => dispatch(removeNewRecipeIngredient(ingredient))}>
+                                <Pressable style={{alignSelf: 'center'}} onPress={() => dispatch(removeNewRecipeIngredient(item))}>
                                     <Icon name='cancel' size={20}/>
                                 </Pressable>
                             </View>
@@ -135,7 +141,7 @@ const RecipeIngredientsSection = ({options}) => {
                                 <Pressable style={{marginTop: 13, paddingRight: 20}} onPress={() => addRecipeIngredient()}>
                                     <Icon name='check' size={20}/>
                                 </Pressable>
-                                <Pressable style={{marginTop: 13}} onPress={() => clearInputs()}>
+                                <Pressable style={{marginTop: 13}} onPress={() => removeInProgressIngredient()}>
                                     <Icon name='cancel' size={20}/>
                                 </Pressable>
                               </View>

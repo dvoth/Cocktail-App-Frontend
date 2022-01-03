@@ -15,6 +15,7 @@ import { constructErrorMessage } from './../../actions/messages';
 import { fetchIngredients } from './../../actions/ingredients'
 import {API_URL} from '@env';
 import RecipeIngredientsSection from "../sections/RecipeIngredientSection";
+import RecipeStepSection from "../sections/RecipeStepSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from './../../styles/styles';
@@ -86,7 +87,7 @@ const AddRecipe = props => {
             </View>
 
             <RecipeIngredientsSection options={recipeIngredientSectionOptions} />
-            <RecipeDirectionsSection />
+            <RecipeStepSection />
         
             <Pressable onPress={() => dispatch()} style={styles.loginBtn}>
                 <Text style={styles.loginText}>Add Recipe</Text>
