@@ -20,13 +20,12 @@ import { styles } from './../../styles/styles';
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const IngredientFilter = ({ allIngredients, onSelectedIngredient }) => {
+const IngredientFilter = ({ defaultIngredient, allIngredients, onSelectedIngredient }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [filteredIngredients, setFilteredIngredients] = useState();
-    const [selectedIngredient, setSelectedIngredient] = useState(false);
     const [searchText, setSearchText] = useState();
-    const [editableSearchText, setEditableSearchText] = useState(true);
+    const [editableSearchText, setEditableSearchText] = useState(!defaultIngredient);
 
     function contains(ingredient, query) {
         if (
@@ -70,10 +69,12 @@ const IngredientFilter = ({ allIngredients, onSelectedIngredient }) => {
             <View style={styles.searchBarFieldContainer}>
                 <Icon name='search' size={20} />
                 <TextInput style={styles.searchBarInput}
-                    placeholder="Search Ingredients"
+                    placeholder={"Search Ingredients"}
                     onChangeText={handleSearch}
                     value={searchText}
                     editable={editableSearchText}
+                    defaultValue={defaultIngredient ? defaultIngredient.name : null}
+
                 />
                 <Pressable onPress={() => cancelSearch()}>
                     <Icon style={{color: 'grey'}} name='clear' size={20} />
@@ -110,7 +111,7 @@ const IngredientFilter = ({ allIngredients, onSelectedIngredient }) => {
     }
 
     return (
-        <View style={{flex: 8}}>
+        <View>
             <FlatList
             data={filteredIngredients}
             renderItem={({ item }) => (

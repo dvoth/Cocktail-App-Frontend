@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
 
     searchBarInput: {
         alignSelf: 'stretch',
+        color: 'black',
     },
      
     inputView: {

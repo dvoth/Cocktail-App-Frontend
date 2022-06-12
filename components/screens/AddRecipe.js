@@ -19,30 +19,6 @@ import RecipeStepSection from "../sections/RecipeStepSection";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { styles } from './../../styles/styles';
-
-const RecipeDirectionsSection = () => {
-    const [open, setopen] = useState(true);
-    const [steps, setSteps] = useState();
-    const onPress = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setopen(!open);
-    };
-    
-    return (
-        <TouchableOpacity style={[styles.recipeSection, !open && { height: 50 }]} onPress={onPress} activeOpacity={1}>
-            <Text style={styles.recipeSectionHeader}>Steps</Text>
-            {open && (
-                <FlatList 
-                    data={steps}
-                    keyExtractor={item => String(item.id)}
-                    renderItem={({ item }) => (
-                        <Text>{item.order}.  {item.description}</Text>
-                    )}
-                />
-            )}
-        </TouchableOpacity>
-    );
-}
  
 const AddRecipe = props => {
     // This is just component-specific state, we don't need redux when getting user input for username/password
@@ -64,7 +40,7 @@ const AddRecipe = props => {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {/* TODO: Instead of showing a list of errors, update to show error below each field with an error */}
             {/* <View style={styles.loginErrorContainer}> */}
             <View>
@@ -92,7 +68,7 @@ const AddRecipe = props => {
             <Pressable onPress={() => dispatch()} style={styles.loginBtn}>
                 <Text style={styles.loginText}>Add Recipe</Text>
             </Pressable>
-        </ScrollView>
+        </SafeAreaView>
   );
 }
 

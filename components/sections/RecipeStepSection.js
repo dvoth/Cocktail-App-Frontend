@@ -23,7 +23,7 @@ const defaultOptions = {
 const RecipeStepSection = ({options}) => {
     const newOptions = mergeOptions(options)
 
-    // Flags for opening the section and displaying "add ingredient" input fields
+    // Flags for opening the section and displaying "add step" input fields
     const [open, setopen] = useState(newOptions.open);
     const [addingStep, setAddingStep] = useState(false);
 
@@ -92,12 +92,12 @@ const RecipeStepSection = ({options}) => {
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item, index }) => (
                             <View style={{flex: 1, flexDirection: 'row',  justifyContent: 'space-between'}}>
-                                <View style={{flexDirection: 'row', flex: 9}}>
+                                <View style={{flexDirection: 'row', flex: 5}}>
                                     <Text>{index + 1}.  </Text>
                                     <Text>{item.description}</Text>
                                 </View>
-                                <Pressable style={{alignSelf: 'center', flex: 1}} onPress={() => dispatch(removeNewRecipeStep(item))}>
-                                    <Icon name='cancel' size={20}/>
+                                <Pressable style={{flex: 1}} onPress={() => dispatch(removeNewRecipeStep(item))}>
+                                    <Icon style={{alignSelf: 'flex-end', flex: 1}} name='cancel' size={20}/>
                                 </Pressable>
                             </View>
                         )}
@@ -105,7 +105,7 @@ const RecipeStepSection = ({options}) => {
                     {/* Only add the "add step" section if the component is not readonly */}
                     {!newOptions.readonly && (
                         addingStep
-                            // If adding an ingredient, show input fields for adding a RecipeStep
+                            // If adding a step, show input fields for adding a RecipeStep
                             ? <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                                 <TextInput 
                                     style={[

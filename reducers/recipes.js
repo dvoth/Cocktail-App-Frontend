@@ -101,12 +101,12 @@ export default function(state = initialState, action) {
         case CLEAR_RECIPE_INGREDIENT_ERRORS:
             return {
                 ...state,
-                addRecipeIngredientErrors: {...state.addRecipeIngredientErrors, errorFree: true, ingredientError: false, quantityError: false, unitError: false}
+                addRecipeIngredientErrors: {...state.addRecipeIngredientErrors, errorFree: null, ingredientError: false, quantityError: false, unitError: false}
             }
         case CLEAR_RECIPE_STEP_ERRORS:
             return {
                 ...state,
-                addRecipeStepErrors: {...state.addRecipeStepErrors, errorFree: true, descriptionError: false},
+                addRecipeStepErrors: {...state.addRecipeStepErrors, errorFree: null, descriptionError: false},
             }
         default:
             return state

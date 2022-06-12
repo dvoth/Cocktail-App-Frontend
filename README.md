@@ -3,6 +3,7 @@
 * `npm install` 
 * `npx react-native start`
 * `npx react-native run-android`
+* `npm run debug` <-- you can actually see the redux tree!!
 
 ## Libraries used
 * [React Navigation] (https://reactnavigation.org/docs/)
