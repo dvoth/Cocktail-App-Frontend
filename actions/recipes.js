@@ -3,7 +3,10 @@ import {
     FETCH_RECIPES_FAILURE, 
     FETCHING_RECIPES, 
     DELETE_RECIPE, 
-    ADD_RECIPE,
+    ADD_RECIPE_SUCCESS,
+    ADD_RECIPE_FAILURE,
+    VALIDATE_ADD_RECIPE_FAILURE, 
+    VALIDATE_ADD_RECIPE_SUCCESS,
     VALIDATE_ADD_RECIPE_INGREDIENT_FAILURE, 
     VALIDATE_ADD_RECIPE_INGREDIENT_SUCCESS,
     VALIDATE_ADD_RECIPE_STEP_SUCCESS,
@@ -112,16 +115,12 @@ export function clearRecipeStepErrors() {
 
 export function addNewRecipeStep(recipeStep) {
     return (dispatch, getState) => {
-        errors = {}
-        console.log(recipeStep)
+        var errors = {errorFree: false, descriptionError: false}
         if (recipeStep.description == null || recipeStep.description == undefined || recipeStep.description == '' || !recipeStep.description) {
             errors = { ...errors, descriptionError: true };
         }
 
-        console.log(errors)
-
         if (errors.descriptionError == true) {
-            console.log('fail')
             dispatch(validateAddRecipeStepFailure(errors))
         } else {
             dispatch(validateAddRecipeStepSuccess(recipeStep))
@@ -186,15 +185,82 @@ function validateAddRecipeStepSuccess(recipeStep) {
 //         .catch(err => console.log(err))
 // }
 
-// // ADD RECIPES
-// export const addRecipe = (recipe) => dispatch => {
-//     axios.post("/api/recipes/", recipe)
-//         .then(res => {
-//             dispatch({
-//                 type: ADD_RECIPE,
-//                 // should receive a recipe from the server after it's added
-//                 payload: res.data
-//             })
-//         })
-//         .catch(err => console.log(err))
-// }
+// ADD RECIPES
+export function addNewRecipe(newRecipe) {
+    return (dispatch, getState) => {
+        var errors = {errorFree: false, nameError: false, descriptionError: false, ingredientError: false, stepError: false}
+        console.log(newRecipe)
+        if (!newRecipe.ingredients?.length) {
+            errors = { ...errors, ingredientError: true };
+        }
+    
+        if (!newRecipe.steps?.length) {
+            errors = { ...errors, stepError: true };
+        }
+
+        if (!newRecipe.name) {
+            errors = { ...errors, nameError: true };
+        }
+
+        if (!newRecipe.description) {
+            errors = { ...errors, descriptionError: true };
+        }
+    
+        if (errors.nameError == true || errors.descriptionError == true || errors.ingredientError == true || errors.stepError == true) {
+            dispatch(validateAddRecipeFailure(errors))
+        } else {
+            dispatch(validateAddNewRecipeSuccess(newRecipe))
+        }
+    }
+}
+export function validateAddNewRecipeSuccess(recipe)  {
+    console.log("adding recipe")
+    return (dispatch, getState) => {
+        const config = tokenConfig(getState)
+        const addRecipeUrl = API_URL + '/recipes/'
+
+        config['method'] = 'POST'
+        config['body'] = JSON.stringify(recipe)
+  
+        // Ping API to add the ingredient
+        return(fetch(addRecipeUrl, config))
+            .then(res => {
+                if (res.status == 400) {
+                    throw new Error(res.status)
+                } else {
+                    return res.json()
+                }
+            })
+            .then(json => {
+                return(
+                    dispatch(addRecipeSuccess(json))
+                )
+            })
+            .catch(err => {
+                console.log(err)
+                dispatch(addRecipeFailure(err))
+            })
+    }
+}
+
+function addRecipeSuccess(data) {
+    console.log("Success adding recipe")
+    return {
+        type: ADD_RECIPE_SUCCESS,
+        payload: data
+    }
+}
+
+function addRecipeFailure(data) {
+    console.log("Failed adding recipe")
+    return {
+        type: ADD_RECIPE_FAILURE
+    }
+}
+
+function validateAddRecipeFailure(errors) {
+    return {
+        type: VALIDATE_ADD_RECIPE_FAILURE,
+        payload: errors
+    }
+}

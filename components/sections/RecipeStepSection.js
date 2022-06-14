@@ -32,6 +32,7 @@ const RecipeStepSection = ({options}) => {
 
     // Redux state for error handling and holding the new recipe steps
     const errors = useSelector(state => state.recipes.addRecipeStepErrors)
+    const recipeErrors = useSelector(state => state.recipes.addRecipeErrors)
     const newRecipeSteps = useSelector(state => state.recipes.newRecipeSteps)
 
     const dispatch = useDispatch()
@@ -39,7 +40,7 @@ const RecipeStepSection = ({options}) => {
     // When our errors change, we need to clear the inputs and what not
     useEffect(() => {
         if (errors.errorFree) {
-            clearInputs()
+            removeInProgressStep()
         }
     }, [errors]);
 
@@ -82,7 +83,7 @@ const RecipeStepSection = ({options}) => {
     }
 
     return (
-        <TouchableOpacity style={[styles.recipeSection, !open && { height: 50 }]} activeOpacity={1}>
+        <TouchableOpacity style={[styles.recipeSection, recipeErrors.stepError && styles.inputError, !open && { height: 50 }]} activeOpacity={1}>
         <Text onPress={toggleSection} style={styles.recipeSectionHeader}>Steps</Text>
             {/* Only display the section content if the section is open */}
             {open && (

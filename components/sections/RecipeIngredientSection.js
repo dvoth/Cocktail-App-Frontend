@@ -35,6 +35,7 @@ const RecipeIngredientsSection = ({options}) => {
 
     // Redux state for error handling and holding the new recipe ingredients
     const newRecipeIngredients = useSelector(state => state.recipes.newRecipeIngredients)
+    const errors = useSelector(state => state.recipes.addRecipeErrors)
 
     const dispatch = useDispatch()
 
@@ -63,7 +64,7 @@ const RecipeIngredientsSection = ({options}) => {
     }
 
     return (
-        <TouchableOpacity style={[styles.recipeSection, !open && { height: 50 }]} activeOpacity={1}>
+        <TouchableOpacity style={[styles.recipeSection, errors.ingredientError && styles.inputError, !open && { height: 50 }]} activeOpacity={1}>
         <Text onPress={toggleSection} style={styles.recipeSectionHeader}>Ingredients</Text>
             {/* Only display the section content if the section is open */}
             {open && (
